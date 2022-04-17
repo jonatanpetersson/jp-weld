@@ -1,6 +1,6 @@
 {
   "name": "jp-weld",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "jp-weld is a miniature web compiler, allowing a component based web app architecture.",
   "main": "weld.js",
   "type": "module",
