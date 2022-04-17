@@ -1,6 +1,6 @@
 {
   "name": "weld",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "weld is a miniature web compiler, allowing a component based web app architecture.",
   "main": "index.js",
   "scripts": {
