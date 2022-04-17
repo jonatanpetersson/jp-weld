@@ -29,6 +29,10 @@ Components must be injected in each html as `<ComponentName />`, using the same 
 * Add `"weld": "node node_modules/jp-weld/weld.js"` to the scripts in your package.json.  
 * Run `npm run weld -- build` to build and compile your app and export a single `index.html`, `script.js` and `style.css` and if provided `/assets` to the directory `/dist` in your root directory.
 
+### Features
+- Separate your web application in components, making development more structured and scalable.
+- Compile your project into files ready for deployment.
+
 ### WIP
 - Rewrite project in TS, add support for TS
 - Initiating project boilerplate by running `npm run weld -- init`
