@@ -22,7 +22,8 @@ In project root folder you need this folder structure:
     |- ComponentName.js
     |- ComponentName.css
 ```
-Components must be injected in each html as `<ComponentName />`
+weld is now also directory agnostic, meaning you can put any component in any sub directory inside /components.
+Components must be injected in each html as `<ComponentName />`, using the same name as the file.
 
 ### Compiling
 * Add `"weld": "node node_modules/jp-weld/weld.js"` to the scripts in your package.json.  
@@ -32,5 +33,5 @@ Components must be injected in each html as `<ComponentName />`
 - Rewrite project in TS, add support for TS
 - Initiating project boilerplate by running `npm run weld -- init`
 - Support different environments
-- Support for folder structure inside /components
+- ✅ Support for folder structure inside /components
 - Make config to enable custom things like input and output directories
