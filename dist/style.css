@@ -1,0 +1,31 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-size: 10px;
+}
+
+.root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: grey;
+}
+
+.container {
+  width: 30rem;
+  height: 50rem;
+  background-color: white;
+  border-radius: 3px;
+}.home {
+  display: flex;
+  flex-direction: column;
+}.profile-image {
+  border-radius: 100%;
+}

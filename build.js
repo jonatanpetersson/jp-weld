@@ -1,40 +1,7 @@
 import fs from 'fs';
 
 export function build() {
-  const getString = path => fs.readFileSync(path, 'utf-8', (err, data) => data);
-  const getComponentsList = path => fs.readdirSync(path, (err, data) => data);
-  
-  const loadComponents = () => {
-    const components = {};
-    components['html'] = {};
-    components['css'] = {};
-    components['js'] = {};
-    components['html']['index'] = getString('src/index.html');
-    components['html']['root'] = getString('src/root.html');
-    components['js']['script'] = getString('src/script.js');
-    components['css']['style'] = getString('src/style.css');
-  
-    getComponentsList('src/components').map(file => {
-      if (file.split('.')[1] === 'html') {
-        let selector = '<' + file.split('.')[0] + ' />';
-        const content = getString('src/components/' + file);
-        components['html'][selector] = content;
-      }
-      if (file.split('.')[1] === 'js') {
-        let selector = file.split('.')[0];
-        const content = getString('src/components/' + file);
-        components['js'][selector] = content;
-      }
-      if (file.split('.')[1] === 'css') {
-        let selector = file.split('.')[0];
-        const content = getString('src/components/' + file);
-        components['css'][selector] = content;
-      }
-    });
-  
-    return components;
-  }
-  
+
   const buildHtml = (components) => {
     let html = components['index'].replace('<div class="root">', '<div class="root">' + components['root']);
     delete components['index'];
@@ -64,8 +31,44 @@ export function build() {
     Object.keys(components).forEach(c => js += components[c]);
     return js;
   }
-    
-  const components = loadComponents();
+  
+  const getComponentContent = path => fs.readFileSync(path, 'utf-8');
+  const getComponents = (path, components) => {
+    const items = getItemsInFolder(path);
+
+    items.forEach(item => {
+      const childPath = path + '/' + item;
+
+      if (isFolder(item)) {
+        getComponents(childPath, components);
+      }
+      
+      if (!isFolder(item)) {
+        const fileFormat = item.split('.')[1];
+        const selector = '<' + item.split('.')[0] + ' />';
+
+        components[fileFormat][selector] = getComponentContent(childPath);
+      }
+    })
+    return components;
+  }
+  const getItemsInFolder = path => fs.readdirSync(path);
+  const isFolder = item => !(item.includes('.html') || item.includes('.css') || item.includes('.js'));
+
+  const initialComponents = {
+    html: {
+      index: getComponentContent('src/index.html'),
+      root: getComponentContent('src/root.html'),
+    },
+    css: {
+      style: getComponentContent('src/style.css'),
+    },
+    js: {
+      script: getComponentContent('src/script.js'),
+    }
+  }
+
+  const components = getComponents('src/components', initialComponents);
   const html = buildHtml(components['html']);
   const css = buildCss(components['css']);
   const js = buildJs(components['js']);
@@ -76,4 +79,3 @@ export function build() {
   fs.writeFileSync('dist/script.js', js);
   fs.cpSync('src/assets', 'dist/assets', {recursive: true});
 }
-
