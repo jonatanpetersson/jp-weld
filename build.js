@@ -28,7 +28,7 @@ export function build() {
       if (file.split('.')[1] === 'css') {
         let selector = file.split('.')[0];
         const content = getString('src/components/' + file);
-        components['js'][selector] = content;
+        components['css'][selector] = content;
       }
     });
   
