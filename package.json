@@ -4,7 +4,7 @@
   "description": "weld is a miniature web compiler, allowing a component based web app architecture.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "weld": "node weld.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,5 @@
   "bugs": {
     "url": "https://github.com/jonatanpetersson/weld/issues"
   },
-  "homepage": "https://github.com/jonatanpetersson/weld#readme"
+  "homepage": "https://github.com/jonatanpetersson/weld"
 }
