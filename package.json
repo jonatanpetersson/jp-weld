@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "jp-weld is a miniature web compiler, allowing a component based web app architecture.",
   "main": "weld.js",
+  "type": "module",
   "scripts": {
     "weld": "node weld.js"
   },
