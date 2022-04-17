@@ -1,0 +1,20 @@
+{
+  "name": "weld",
+  "version": "1.0.0",
+  "description": "weld is a miniature web compiler, allowing a component based web app architecture.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonatanpetersson/weld.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonatanpetersson/weld/issues"
+  },
+  "homepage": "https://github.com/jonatanpetersson/weld#readme"
+}
