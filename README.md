@@ -9,7 +9,7 @@ Just an idea that arose while starting building a new portfolio.
 
 ## Usage
 ### Requirements
-- In project root folder you need this folder structure:
+In project root folder you need this folder structure:
 ```
 |- /src
   |- index.html (requires a <div class="root"></div> in the body tag)
@@ -21,12 +21,13 @@ Just an idea that arose while starting building a new portfolio.
     |- ComponentName.js
     |- ComponentName.css
 ```
-- Components must be injected in each html as `<ComponentName />`
+Components must be injected in each html as `<ComponentName />`
 
 ### Compiling
-- Running `npm run weld -- build` will build and compile your app and export a single `index.html`, `script.js` and `style.css` to `/dist`
+Running `npm run weld -- build` will build and compile your app and export a single `index.html`, `script.js` and `style.css` to a directory `/dist`
 
 ### WIP
 - Initiating project boilerplate by running `npm run weld -- init`
 - Support different environments
 - Support for folder structure inside /components
+- Make config to enable custom things like input and output directories
