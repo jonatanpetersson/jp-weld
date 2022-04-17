@@ -29,6 +29,7 @@ Components must be injected in each html as `<ComponentName />`
 * Run `npm run weld -- build` to build and compile your app and export a single `index.html`, `script.js` and `style.css` and if provided `/assets` to the directory `/dist` in your root directory.
 
 ### WIP
+- Rewrite project in TS, add support for TS
 - Initiating project boilerplate by running `npm run weld -- init`
 - Support different environments
 - Support for folder structure inside /components
