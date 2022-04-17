@@ -24,8 +24,8 @@ In project root folder you need this folder structure:
 Components must be injected in each html as `<ComponentName />`
 
 ### Compiling
-Add `"weld": "node node_modules/jp-weld/weld.js"` to the scripts in your package.json.
-Running `npm run weld -- build` will build and compile your app and export a single `index.html`, `script.js` and `style.css` to a directory `/dist`
+Add `"weld": "node node_modules/jp-weld/weld.js"` to the scripts in your package.json.  
+Running `npm run weld -- build` will build and compile your app and export a single `index.html`, `script.js` and `style.css` to the directory `/dist`.
 
 ### WIP
 - Initiating project boilerplate by running `npm run weld -- init`
