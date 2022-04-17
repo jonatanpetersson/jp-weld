@@ -1,7 +1,7 @@
 # jp-weld
 
 weld is a miniature component framework and web compiler for simpler web applications.  
-Just an idea that arose while starting building a new portfolio.
+Just a side project that kind of got started while building something else, so decided to export it into its own thing.
 
 ## Install
 
