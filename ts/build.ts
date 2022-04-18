@@ -25,7 +25,7 @@ export function build(): void {
         getComponents(childPath, components);
       }
       if (!isFolder(item)) {
-        const fileFormat: string = item.split('.')[1];
+        const fileFormat: FileFormat = item.split('.')[1] as FileFormat;
         const selector: string = '<' + item.split('.')[0] + ' />';
         components[fileFormat][selector] = getComponentContent(childPath);
       }

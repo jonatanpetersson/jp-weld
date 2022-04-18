@@ -8,10 +8,15 @@ const scriptToRun = process.argv[2];
 switch (scriptToRun) {
   case Run.Init:
     init();
-    cleanUp();
+    // cleanUp();
     break;
   case Run.Build:
     build();
-    cleanUp();
+    // cleanUp();
+    break;
+  case Run.Dev:
+    init();
+    build();
+    // cleanUp();
     break;
 }

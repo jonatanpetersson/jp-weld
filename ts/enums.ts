@@ -28,6 +28,7 @@ export enum File {
 export enum Run {
   Init = 'init',
   Build = 'build',
+  Dev = 'dev',
 }
 
 export enum Strings {
@@ -52,10 +53,11 @@ export enum Init {
   RootHtml = `<div class="content">
   <Base />
 </div>`,
-  StyleCss = `* {
+  StyleCss = `@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+  * {
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Open Sans', sans-serif;
   }
   
   html, body {

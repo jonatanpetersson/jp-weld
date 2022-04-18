@@ -5,7 +5,10 @@
   "main": "weld.js",
   "type": "module",
   "scripts": {
-    "weld": "tsc && node weld.js"
+    "weld init": "node weld.js -- init",
+    "weld build": "node weld.js -- build",
+    "tsdev": "tsc -w",
+    "jsdev": "npx nodemon --ignore src/ --ignore dist/ --ignore ts/ --verbose --delay 2.5 weld.js -- dev"
   },
   "repository": {
     "type": "git",
@@ -19,9 +22,8 @@
   },
   "homepage": "https://github.com/jonatanpetersson/weld",
   "devDependencies": {
-    "@types/node": "^17.0.24"
-  },
-  "dependencies": {
+    "@types/node": "^17.0.24",
+    "nodemon": "^2.0.15",
     "typescript": "^4.6.3"
   }
 }
