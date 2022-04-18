@@ -37,8 +37,8 @@ Components must be injected in each html as `<ComponentName />`, using the same 
 ## Development
 
 ### Upcoming - Slice 3
-
-Suggestions?
+- Error handling (pretty much none atm...)
+- Suggestions?
 
 ### WIP - Slice 2
 
