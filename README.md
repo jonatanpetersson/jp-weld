@@ -41,7 +41,6 @@ Components must be injected in each html as `<ComponentName />`, using the same 
 
 - ✅ Rewrite project in TS
 - ✅ Initiating project boilerplate by running `npm run weld -- init`
-- Support different environments
 - ✅ Support for folder structure inside /components
 - Make config to enable custom things like input and output directories
 
