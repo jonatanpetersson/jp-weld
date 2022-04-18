@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { build } from './build.js';
 import { Run } from './enums.js';
 import { init } from './init.js';
