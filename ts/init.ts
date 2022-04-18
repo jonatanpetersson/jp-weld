@@ -16,5 +16,3 @@ export function init(): void {
   fs.writeFileSync('src/components/Base/Image/Image.css', Init.ImageCss);
   fs.writeFileSync('src/components/Base/Image/Image.js', Init.ImageJs);
 }
-
-init();

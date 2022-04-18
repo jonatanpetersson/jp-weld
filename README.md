@@ -5,16 +5,13 @@ Just a side project that kind of got started while building something else, so d
 
 ## Install
 
-`npm i jp-weld`
+`npm i -D jp-weld`
 
-- Add `"weld": "node node_modules/jp-weld/weld.js"` to the scripts in your package.json.
-- Initialize a boilderplate by running `npm run weld -- init`
+## Setup and usage
 
-## Usage
+- Initialize a boilderplate by running `npx weld init`.
 
-### Requirements
-
-In project root folder you need this folder structure:
+- In your project root folder you need this folder structure:
 
 ```
 |-- /src
@@ -35,16 +32,24 @@ Components must be injected in each html as `<ComponentName />`, using the same 
 
 ### Compiling
 
-- Run `npm run weld -- build` to build and compile your app and export a single `index.html`, `script.js` and `style.css` and if provided `/assets` to the directory `/dist` in your root directory.
+- Run `npx weld build` to build and compile your app and to a single `index.html`, `script.js` and `style.css` and if provided `/assets` to the directory `/dist` in your root directory.
+
+## Development
+
+### Upcoming - Slice 3
+
+Suggestions?
 
 ### WIP - Slice 2
 
 - ✅ Rewrite project in TS
-- ✅ Initiating project boilerplate by running `npm run weld -- init`
-- ✅ Support for folder structure inside /components
+- ✅ Initiating project boilerplate by running `npx weld init`
+- ✅ Support for custom folder structure inside /components
 - Make config to enable custom things like input and output directories
 
-### ✅ Slice 1
+### Complete
 
-- Develop working component system
-- Implement compiling
+Slice 1
+
+- Develop basic but working component system
+- Implement compiling functionality
