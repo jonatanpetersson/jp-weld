@@ -1,6 +1,6 @@
 # jp-weld
 
-weld is a miniature component framework and web compiler for simpler web applications.  
+weld is a minimal component framework and web compiler for vanilla JS web applications.  
 Just a side project that kind of got started while building something else, so decided to export it into its own thing.
 
 ## Install
@@ -44,7 +44,7 @@ Components must be injected in each html as `<ComponentName />`, using the same 
 
 - ✅ Rewrite project in TS
 - ✅ Initiating project boilerplate by running `npx weld init`
-- ✅ Support for custom folder structure inside /components
+- ✅ Support for custom folder structure inside /Components
 - Make config to enable custom things like input and output directories
 
 ### Complete
