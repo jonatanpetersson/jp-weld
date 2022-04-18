@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+// Currently not in use
 export function cleanUp() {
     fs.rmSync('build.js');
     fs.rmSync('init.js');

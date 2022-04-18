@@ -1,12 +1,11 @@
 {
   "name": "jp-weld",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "jp-weld is a miniature web compiler, allowing for a component based web app architecture.",
   "main": "weld.js",
   "type": "module",
   "scripts": {
-    "init": "node weld.js -- init",
-    "build": "node weld.js -- build",
+    "build": "tsc",
     "tsdev": "tsc -w",
     "jsdev": "npx nodemon --ignore src/ --ignore dist/ --ignore ts/ --verbose --delay 2.5 weld.js -- dev"
   },

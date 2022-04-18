@@ -8,7 +8,7 @@ export enum Base {
 export enum Dir {
   Source = 'src',
   Destination = 'dist',
-  Components = 'components',
+  Components = 'Components',
   Assets = 'assets',
 }
 
@@ -50,9 +50,7 @@ export enum Init {
       <script src="script.js"></script>
     </body>
   </html>`,
-  RootHtml = `<div class="content">
-  <Base />
-</div>`,
+  RootHtml = `<Base />`,
   StyleCss = `@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
   * {
     margin: 0;
@@ -77,23 +75,28 @@ export enum Init {
   }`,
   ScriptJs = ``,
   BaseHtml = `<div class="base">
-  <Image />
+  <Logo />
   <h1>New weld project</h1>
   <p>
-    Run <code>npm run weld -- build</code>, and check the created dist folder!
+  So yeah, this is an example of how and what you can build with weld. Please have a look at the directory structure and how components are injected in each html file. This should give you an idea of how to use it. GL HF!
   </p>
 </div>`,
   BaseCss = `.base {
+    min-width: 25rem;
+    width: 50%;
+    max-width: 50rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: justify;
+    text-justify: inter-word;
   }`,
   BaseJs = ``,
-  ImageHtml = `<div class="icon">
+  LogoHtml = `<div class="icon">
 <img src="./assets/img/weld.svg" alt="weld icon" />
 </div>`,
-  ImageCss = ``,
-  ImageJs = ``,
+  LogoCss = ``,
+  LogoJs = ``,
 
   Svg = `<svg width="227" height="188" viewBox="0 0 227 188" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M152.054 64.7022C154.021 66.6404 157.187 66.6171 159.125 64.6501C161.063 62.6832 161.04 59.5175 159.073 57.5793L152.054 64.7022ZM5.69833 163.363C3.76012 165.33 3.78342 168.496 5.75035 170.434C7.71728 172.372 10.883 172.349 12.8212 170.382L5.69833 163.363ZM40.9844 153.91L44.5458 157.42L40.9844 153.91ZM22.1406 139.554L25.6501 135.992L22.1406 139.554ZM124.721 49.7L121.159 46.1906L124.721 49.7ZM140.301 53.121L152.054 64.7022L159.073 57.5793L147.32 45.9981L140.301 53.121ZM83.3607 98.797L128.282 53.2095L121.159 46.1906L76.2378 91.7781L83.3607 98.797ZM69.1669 91.8301L76.2898 98.849L83.3087 91.7261L76.1858 84.7072L69.1669 91.8301ZM25.6709 138.82L71.9953 91.8093L64.8724 84.7905L18.548 131.802L25.6709 138.82ZM76.2898 98.849L83.7681 106.218L90.787 99.0952L83.3087 91.7261L76.2898 98.849ZM83.7473 103.39L37.4229 150.401L44.5458 157.42L90.8702 110.409L83.7473 103.39ZM12.8212 170.382L32.825 150.082L25.7021 143.063L5.69833 163.363L12.8212 170.382ZM32.773 143.011L25.6501 135.992L18.6312 143.115L25.7541 150.134L32.773 143.011ZM40.2513 150.38L32.773 143.011L25.7541 150.134L33.2324 157.503L40.2513 150.38ZM37.4229 150.401C38.1982 149.614 39.4645 149.605 40.2513 150.38L33.2324 157.503C36.3795 160.604 41.4447 160.567 44.5458 157.42L37.4229 150.401ZM18.548 131.802C15.4468 134.949 15.4841 140.014 18.6312 143.115L25.6501 135.992C26.4368 136.767 26.4461 138.034 25.6709 138.82L18.548 131.802ZM76.1858 84.7072C73.0387 81.6061 67.9735 81.6434 64.8724 84.7905L71.9953 91.8093C71.22 92.5961 69.9537 92.6054 69.1669 91.8301L76.1858 84.7072ZM83.7681 106.218C82.9814 105.443 82.9721 104.177 83.7473 103.39L90.8702 110.409C93.9714 107.261 93.9341 102.196 90.787 99.0952L83.7681 106.218ZM147.32 45.9981C140.043 38.8272 128.33 38.9134 121.159 46.1906L128.282 53.2095C131.577 49.8661 136.958 49.8265 140.301 53.121L147.32 45.9981Z" fill="black"/>

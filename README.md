@@ -20,7 +20,7 @@ Just a side project that kind of got started while building something else, so d
   |-- root.html (inject first parent component here)
   |-- script.js
   |-- style.css
-  |-- /components
+  |-- /Components
       |-- /ComponentName
         |-- ComponentName.html
         |-- ComponentName.js
