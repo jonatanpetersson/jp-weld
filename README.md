@@ -27,8 +27,8 @@ Just a side project that kind of got started while building something else, so d
         |-- ComponentName.css
 ```
 
-weld is now also directory agnostic, meaning you can put any component in any sub directory inside /components.
-Components must be injected in each html as `<ComponentName />`, using the same name as the file.
+weld is now also directory agnostic, meaning you can put any component in any sub directory inside /Components.
+Components must be injected in each html as `<ComponentName />`, using the same name as the file(s).
 
 ### Compiling
 
