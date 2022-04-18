@@ -5,7 +5,7 @@
   "main": "weld.js",
   "type": "module",
   "scripts": {
-    "weld": "node weld.js"
+    "weld": "tsc && node weld.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/jonatanpetersson/weld/issues"
   },
-  "homepage": "https://github.com/jonatanpetersson/weld"
+  "homepage": "https://github.com/jonatanpetersson/weld",
+  "devDependencies": {
+    "@types/node": "^17.0.24"
+  },
+  "dependencies": {
+    "typescript": "^4.6.3"
+  }
 }
