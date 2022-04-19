@@ -1,7 +1,7 @@
 # jp-weld
 
-weld is a minimal component framework and web compiler for vanilla JS web applications.  
-Just a side project that kind of got started while building something else, so decided to export it into its own thing.
+weld is a minimalistic component framework and web compiler for vanilla JS web applications.  
+Just a side project that kind of got started while building my portfolio, so decided to export it into its own thing.
 
 ## Install
 
