@@ -38,6 +38,7 @@ Components must be injected in each html as `<ComponentName />`, using the same 
 
 ### Upcoming - Slice 3
 - Error handling (pretty much none atm...)
+- Make config to enable custom things like input and output directories
 - Suggestions?
 
 ### WIP - Slice 2
@@ -45,7 +46,7 @@ Components must be injected in each html as `<ComponentName />`, using the same 
 - ✅ Rewrite project in TS
 - ✅ Initiating project boilerplate by running `npx weld init`
 - ✅ Support for custom folder structure inside /Components
-- Make config to enable custom things like input and output directories
+- Data bidning of some sort so that components can be reusable and customizable
 
 ### Complete
 
