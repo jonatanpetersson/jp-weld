@@ -1,3 +1,5 @@
+export const WeldConfig = './weldconfig.json';
+
 export enum Base {
   Index = 'index',
   Root = 'root',
@@ -10,6 +12,11 @@ export enum Dir {
   Destination = 'dist',
   Components = 'Components',
   Assets = 'assets',
+}
+
+export enum CatchType {
+  Warning = 'warning',
+  Error = 'error',
 }
 
 export enum FileFormat {
@@ -25,7 +32,7 @@ export enum File {
   Script = Base.Script + '.' + FileFormat.Js,
 }
 
-export enum Run {
+export enum RunOption {
   Init = 'init',
   Build = 'build',
   Dev = 'dev',
@@ -110,4 +117,8 @@ export enum Init {
 <path d="M186.827 54.0169C188.338 51.7056 187.689 48.6069 185.378 47.0958C183.067 45.5847 179.968 46.2334 178.457 48.5447L186.827 54.0169ZM174.627 54.4036C173.115 56.7149 173.764 59.8135 176.075 61.3246C178.387 62.8357 181.485 62.1871 182.996 59.8758L174.627 54.4036ZM179.896 55.4817L175.711 52.7456L175.711 52.7456L179.896 55.4817ZM178.457 48.5447L175.711 52.7456L184.08 58.2178L186.827 54.0169L178.457 48.5447ZM175.711 52.7456L174.627 54.4036L182.996 59.8758L184.08 58.2178L175.711 52.7456Z" fill="black"/>
 <path d="M201.56 63.5059C204.187 62.6562 207.006 64.0973 207.856 66.7248C208.705 69.3522 207.264 72.171 204.637 73.0207L201.56 63.5059ZM188.445 78.2569C185.818 79.1066 182.999 77.6655 182.149 75.0381C181.3 72.4106 182.741 69.5918 185.368 68.7421L188.445 78.2569ZM191.489 72.0178L193.027 76.7752L191.489 72.0178ZM204.637 73.0207L193.027 76.7752L189.95 67.2603L201.56 63.5059L204.637 73.0207ZM193.027 76.7752L188.445 78.2569L185.368 68.7421L189.95 67.2603L193.027 76.7752Z" fill="black"/>
 </svg>`,
+}
+
+export enum WarningMessage {
+  WeldConfig = 'Could not fint weldconfig.json in root directory. Default config values will be used.',
 }
