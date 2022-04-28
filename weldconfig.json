@@ -1,7 +1,0 @@
-{
-  "input": "src",
-  "output": "dist",
-  "netlify": {
-    "_redirects": false
-  }
-}
