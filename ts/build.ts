@@ -1,6 +1,7 @@
 import { Component, Components } from './types.js';
-import { Base, Dir, File, FileFormat, Strings } from './enums.js';
+import { Base, Dir, File, FileFormat, Router, Strings } from './enums.js';
 import * as fs from 'fs';
+import { randomUUID } from 'crypto';
 
 export function build(): void {
   // Expressions
@@ -48,6 +49,9 @@ export function build(): void {
     },
   };
 
+  const routes: Component = {};
+  let hadRoutes = false;
+
   const buildHtml = (components: Component): string => {
     let html = components[Base.Index].replace(
       Strings.DivRoot,
@@ -66,6 +70,32 @@ export function build(): void {
         }
       });
     }
+
+    match = true;
+    while (match === true) {
+      match = false;
+      Object.keys(components).forEach((component) => {
+        const componentName = component.match(/\w+/i)?.[0];
+        const routeString = '<Route component="' + componentName + '" />';
+        const routeStringReplacement = `<div data-routecomponent="${componentName}" data-routenotmounted style="visibility: hidden;"></div>`;
+        const linkString = 'loadComponent="' + componentName + '"';
+        const linkStringReplacement = `data-routelink="${componentName}" onclick="loadRouteComponent(event, '${componentName}')"`;
+
+        if (
+          componentName &&
+          html.includes(routeString) &&
+          html.includes(linkString)
+        ) {
+          routes[componentName] = components[component];
+          html = html.replace(linkString, linkStringReplacement);
+          html = html.replace(routeString, routeStringReplacement);
+          delete components[component];
+          hadRoutes = true;
+          match = true;
+        }
+      });
+    }
+
     return html;
   };
 
@@ -78,6 +108,16 @@ export function build(): void {
   const buildJs = (components: Component): string => {
     let js: string = '';
     Object.keys(components).forEach((c) => (js += components[c]));
+
+    if (hadRoutes) {
+      let routesString = `const routes = {`;
+      Object.keys(routes).forEach((r) => {
+        routesString += `${r}: '${routes[r].trim()}',`;
+      });
+      routesString += '};';
+      js += routesString + Router.LoadFunction;
+    }
+
     return js;
   };
 

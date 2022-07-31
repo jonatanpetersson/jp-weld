@@ -1,4 +1,4 @@
-import { Base, Dir, File, FileFormat, Strings } from './enums.js';
+import { Base, Dir, File, FileFormat, Router, Strings } from './enums.js';
 import * as fs from 'fs';
 export function build() {
     // Expressions
@@ -34,6 +34,8 @@ export function build() {
             script: getComponentContent(Dir.Source + '/' + File.Script),
         },
     };
+    const routes = {};
+    let hadRoutes = false;
     const buildHtml = (components) => {
         let html = components[Base.Index].replace(Strings.DivRoot, Strings.DivRoot + components[Base.Root]);
         delete components[Base.Index];
@@ -48,6 +50,28 @@ export function build() {
                 }
             });
         }
+        match = true;
+        while (match === true) {
+            match = false;
+            Object.keys(components).forEach((component) => {
+                var _a;
+                const componentName = (_a = component.match(/\w+/i)) === null || _a === void 0 ? void 0 : _a[0];
+                const routeString = '<Route component="' + componentName + '" />';
+                const routeStringReplacement = `<div data-routecomponent="${componentName}" data-routenotmounted style="visibility: hidden;"></div>`;
+                const linkString = 'loadComponent="' + componentName + '"';
+                const linkStringReplacement = `data-routelink="${componentName}" onclick="loadRouteComponent(event, '${componentName}')"`;
+                if (componentName &&
+                    html.includes(routeString) &&
+                    html.includes(linkString)) {
+                    routes[componentName] = components[component];
+                    html = html.replace(linkString, linkStringReplacement);
+                    html = html.replace(routeString, routeStringReplacement);
+                    delete components[component];
+                    hadRoutes = true;
+                    match = true;
+                }
+            });
+        }
         return html;
     };
     const buildCss = (components) => {
@@ -58,6 +82,14 @@ export function build() {
     const buildJs = (components) => {
         let js = '';
         Object.keys(components).forEach((c) => (js += components[c]));
+        if (hadRoutes) {
+            let routesString = `const routes = {`;
+            Object.keys(routes).forEach((r) => {
+                routesString += `${r}: '${routes[r].trim()}',`;
+            });
+            routesString += '};';
+            js += routesString + Router.LoadFunction;
+        }
         return js;
     };
     // Calls
