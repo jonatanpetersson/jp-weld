@@ -42,6 +42,35 @@ export enum Strings {
   DivRoot = '<div class="root">',
 }
 
+export enum Router {
+  LoadFunction = `function loadRouteComponent(event, component) {
+    event.preventDefault();
+
+    const getReplacementString = componentName => '<div data-routecomponent="' + componentName + '" style="visibility: hidden;"></div>';
+    const elements = document.querySelectorAll('[data-routecomponent]');
+
+    let componentsTempEl;
+    let currentEl;
+    elements.forEach(el => {
+      if (el.dataset.routecomponent === component) {
+        componentsTempEl = el;
+      }
+      if (el.style.visibility !== 'hidden') {
+        currentEl = el;
+      }
+    })
+
+    componentsTempEl.insertAdjacentHTML('beforebegin', routes[component]);
+    componentsTempEl.remove();
+    
+    if (currentEl) {
+      currentEl.insertAdjacentHTML('afterend', getReplacementString(currentEl.dataset.routecomponent));
+      currentEl.remove();
+    }
+  };
+  `,
+}
+
 export enum Init {
   IndexHtml = `<!DOCTYPE html>
   <html lang="en">

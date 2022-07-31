@@ -41,6 +41,10 @@ export var Strings;
 (function (Strings) {
     Strings["DivRoot"] = "<div class=\"root\">";
 })(Strings || (Strings = {}));
+export var Router;
+(function (Router) {
+    Router["LoadFunction"] = "function loadRouteComponent(event, component) {\n    event.preventDefault();\n\n    const getReplacementString = componentName => '<div data-routecomponent=\"' + componentName + '\" style=\"visibility: hidden;\"></div>';\n    const elements = document.querySelectorAll('[data-routecomponent]');\n\n    let componentsTempEl;\n    let currentEl;\n    elements.forEach(el => {\n      if (el.dataset.routecomponent === component) {\n        componentsTempEl = el;\n      }\n      if (el.style.visibility !== 'hidden') {\n        currentEl = el;\n      }\n    })\n\n    componentsTempEl.insertAdjacentHTML('beforebegin', routes[component]);\n    componentsTempEl.remove();\n    \n    if (currentEl) {\n      currentEl.insertAdjacentHTML('afterend', getReplacementString(currentEl.dataset.routecomponent));\n      currentEl.remove();\n    }\n  };\n  ";
+})(Router || (Router = {}));
 export var Init;
 (function (Init) {
     Init["IndexHtml"] = "<!DOCTYPE html>\n  <html lang=\"en\">\n    <head>\n      <meta charset=\"UTF-8\" />\n      <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n      <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n      <link rel=\"stylesheet\" href=\"style.css\" />\n      <title>New weld project</title>\n    </head>\n    <body>\n      <div class=\"root\"></div>\n      <script src=\"script.js\"></script>\n    </body>\n  </html>";
