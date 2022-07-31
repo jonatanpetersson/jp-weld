@@ -4,7 +4,7 @@ import { init } from './init.js';
 import { cleanUp } from './cleanup.js';
 
 const scriptToRun = process.argv[2];
-console.log(process.argv);
+
 switch (scriptToRun) {
   case Run.Init:
     init();

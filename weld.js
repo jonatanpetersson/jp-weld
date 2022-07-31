@@ -2,7 +2,6 @@ import { build } from './build.js';
 import { Run } from './enums.js';
 import { init } from './init.js';
 const scriptToRun = process.argv[2];
-console.log(process.argv);
 switch (scriptToRun) {
     case Run.Init:
         init();
