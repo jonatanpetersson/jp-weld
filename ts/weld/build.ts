@@ -1,7 +1,17 @@
-import { Component, Components } from './types.js';
-import { Base, Dir, File, FileFormat, Router, Strings } from './enums.js';
 import * as fs from 'fs';
-import { randomUUID } from 'crypto';
+import { Component, Components, Config } from './model/types.js';
+import {
+  Base,
+  Dir,
+  File,
+  FileFormat,
+  Strings,
+  CatchType,
+  WarningMessage,
+  WeldConfig,
+  Router,
+} from './model/enums.js';
+import { tryCatch } from './functions/try-catch.js';
 
 export function build(): void {
   // Expressions
@@ -12,6 +22,9 @@ export function build(): void {
       item.includes(FileFormat.Css) ||
       item.includes(FileFormat.Js)
     );
+
+  const getConfig = (): Config | undefined =>
+    JSON.parse(fs.readFileSync(WeldConfig, 'utf-8'));
 
   const getComponentContent = (path: string): string =>
     fs.readFileSync(path, 'utf-8');
@@ -36,19 +49,6 @@ export function build(): void {
 
   const getItemsInFolder = (path: string): string[] => fs.readdirSync(path);
 
-  const initialComponents: Components = {
-    [FileFormat.Html]: {
-      index: getComponentContent(Dir.Source + '/' + File.Index),
-      root: getComponentContent(Dir.Source + '/' + File.Root),
-    },
-    [FileFormat.Css]: {
-      style: getComponentContent(Dir.Source + '/' + File.Style),
-    },
-    [FileFormat.Js]: {
-      script: getComponentContent(Dir.Source + '/' + File.Script),
-    },
-  };
-
   const routes: Component = {};
   let hadRoutes = false;
 
@@ -61,7 +61,7 @@ export function build(): void {
     delete components[Base.Root];
 
     let match: boolean = true;
-    while (match === true) {
+    while (match) {
       match = false;
       Object.keys(components).forEach((component) => {
         if (html.includes(component)) {
@@ -121,22 +121,49 @@ export function build(): void {
     return js;
   };
 
-  // Calls
+  // Consts and calls
+
+  const config: Config | undefined = tryCatch(
+    getConfig,
+    CatchType.Warning,
+    false,
+    WarningMessage.WeldConfig
+  );
+
+  const sourceDir: string = config?.input || Dir.Source;
+  const destinationDir: string = config?.output || Dir.Destination;
+  const netlifyRedirects: boolean = config?.netlify?._redirects || false;
+
+  const initialComponents: Components = {
+    [FileFormat.Html]: {
+      index: getComponentContent(sourceDir + '/' + File.Index),
+      root: getComponentContent(sourceDir + '/' + File.Root),
+    },
+    [FileFormat.Css]: {
+      style: getComponentContent(sourceDir + '/' + File.Style),
+    },
+    [FileFormat.Js]: {
+      script: getComponentContent(sourceDir + '/' + File.Script),
+    },
+  };
 
   const components: Components = getComponents(
-    Dir.Source + '/' + Dir.Components,
+    sourceDir + '/' + Dir.Components,
     initialComponents
   );
 
-  const html: string = buildHtml(components[FileFormat.Html]);
-  const css: string = buildCss(components[FileFormat.Css]);
-  const js: string = buildJs(components[FileFormat.Js]);
+  const indexContent: string = buildHtml(components[FileFormat.Html]);
+  const styleContent: string = buildCss(components[FileFormat.Css]);
+  const scriptContent: string = buildJs(components[FileFormat.Js]);
 
-  fs.mkdirSync(Dir.Destination, { recursive: true });
-  fs.writeFileSync(Dir.Destination + '/' + File.Index, html);
-  fs.writeFileSync(Dir.Destination + '/' + File.Style, css);
-  fs.writeFileSync(Dir.Destination + '/' + File.Script, js);
-  fs.cpSync(Dir.Source + '/' + Dir.Assets, Dir.Destination + '/' + Dir.Assets, {
+  fs.mkdirSync(destinationDir, { recursive: true });
+  fs.writeFileSync(destinationDir + '/' + File.Index, indexContent);
+  fs.writeFileSync(destinationDir + '/' + File.Style, styleContent);
+  fs.writeFileSync(destinationDir + '/' + File.Script, scriptContent);
+  fs.cpSync(sourceDir + '/' + Dir.Assets, destinationDir + '/' + Dir.Assets, {
     recursive: true,
   });
+  if (netlifyRedirects) {
+    fs.copyFileSync(sourceDir + '/_redirects', destinationDir + '/_redirects');
+  }
 }

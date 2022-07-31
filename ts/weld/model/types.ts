@@ -9,3 +9,11 @@ export interface Components {
   [FileFormat.Css]: Component;
   [FileFormat.Js]: Component;
 }
+
+export interface Config {
+  input?: string;
+  output?: string;
+  netlify: {
+    _redirects?: boolean;
+  };
+}
