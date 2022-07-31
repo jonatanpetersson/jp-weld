@@ -7,7 +7,7 @@ Just a side project that kind of got started while building something else, so d
 
 `npm i -D jp-weld`
 
-## Setup and usage
+## Setup
 
 ### weldconfig.json
 
@@ -32,7 +32,7 @@ Create a `weldconfig.json` in the root directory of your project. It is optional
 
 Initialize a boilderplate by running `npx weld init`.
 
-### Usage
+## Usage
 
 In your project root folder you need this folder structure:
 
@@ -54,22 +54,33 @@ Weld is also directory agnostic, meaning you can put any component in any sub di
 Components must be injected in each html as `<ComponentName />`, using the same name as the file.
 Initiating the boilerplate explained above will help you understand how it works.
 
+## Routing
+
+Rudimentary routing is now added, VERY beta and untested at the moment:
+
+- In the component HTML, on the wrapping tag, add a `data-routecomponent="ComponentName"` attribute to it.
+- Wherever you wish to load this, add the component as `<Route component="ComponentName" />`.
+- In the element you wish to use as link, put a `loadComponent="CompOne"` attribute to it. This will be replaced with an onclick-function.
+- Loading one route will hide all the other.
+- No parameter handling is available at the moment.
+- This is not added to the boilerplate yet but that's in the works.
+
 ### Compiling
 
 - Run `npx weld build` to build and compile your app and to a single `index.html`, `script.js` and `style.css` and if provided `/assets` to your output directory.
 
 ## Development
 
-### Upcoming - Slice 3
+###
 
+### WIP - Slice 3
+
+- Improve routing
 - Implement further error handling (pretty much none atm...)
 - Allow for some kind of data-binding to make components more flexible and reusable
 - More config settings: Make files to copy on compilation generic.
 - Suggestions?
-
-### WIP
-
-- Planning Slice 3
+  ✔ Added Routing
 
 ### Complete
 
