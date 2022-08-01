@@ -61,6 +61,7 @@ Rudimentary routing is now added, VERY beta and untested at the moment:
 - In the component HTML, on the wrapping tag, add a `data-routecomponent="ComponentName"` attribute to it.
 - Wherever you wish to load this, add the component as `<Route component="ComponentName" />`.
 - In the element you wish to use as link, put a `loadComponent="ComponentName"` attribute to it. This will be replaced with an onclick-function.
+- To run specific code on route load, wrap it all in a function called `ComponentName` (it will be called after html loads).
 - Loading one route will hide all the other.
 - No parameter handling is available at the moment.
 - This is not added to the boilerplate yet but that's in the works.
