@@ -1,15 +1,25 @@
 import * as fs from 'fs';
-import { Base, Dir, File, FileFormat, Strings, CatchType, WarningMessage, WeldConfig, Router, } from './model/enums.js';
+import { Base, Dir, File, FileFormat, Strings, CatchType, WarningMessage, WeldConfig, } from './model/enums.js';
 import { tryCatch } from './functions/try-catch.js';
+import { addRoutesToJS, buildRoutes, hasRoutes, loadRouteComponent, } from './functions/routes.js';
+import util from 'util';
 export function build() {
     // Expressions
     var _a;
-    const isFolder = (item) => !(item.includes(FileFormat.Html) ||
-        item.includes(FileFormat.Css) ||
-        item.includes(FileFormat.Js));
-    const getConfig = () => JSON.parse(fs.readFileSync(WeldConfig, 'utf-8'));
-    const getComponentContent = (path) => fs.readFileSync(path, 'utf-8');
-    const getComponents = (path, components) => {
+    let routesString;
+    let loadRouteComponentString;
+    function isFolder(item) {
+        return !(item.includes(FileFormat.Html) ||
+            item.includes(FileFormat.Css) ||
+            item.includes(FileFormat.Js));
+    }
+    function getConfig() {
+        return JSON.parse(fs.readFileSync(WeldConfig, 'utf-8'));
+    }
+    function getComponentContent(path) {
+        return fs.readFileSync(path, 'utf-8');
+    }
+    function getComponents(path, components) {
         const items = getItemsInFolder(path);
         items.forEach((item) => {
             const childPath = path + '/' + item;
@@ -23,11 +33,11 @@ export function build() {
             }
         });
         return components;
-    };
-    const getItemsInFolder = (path) => fs.readdirSync(path);
-    const routes = {};
-    let hadRoutes = false;
-    const buildHtml = (components) => {
+    }
+    function getItemsInFolder(path) {
+        return fs.readdirSync(path);
+    }
+    function buildHtml(components) {
         let html = components[Base.Index].replace(Strings.DivRoot, Strings.DivRoot + components[Base.Root]);
         delete components[Base.Index];
         delete components[Base.Root];
@@ -41,48 +51,25 @@ export function build() {
                 }
             });
         }
-        match = true;
-        while (match === true) {
-            match = false;
-            Object.keys(components).forEach((component) => {
-                var _a;
-                const componentName = (_a = component.match(/\w+/i)) === null || _a === void 0 ? void 0 : _a[0];
-                const routeString = '<Route component="' + componentName + '" />';
-                const routeStringReplacement = `<div data-routecomponent="${componentName}" data-routenotmounted style="visibility: hidden;"></div>`;
-                const linkString = 'loadComponent="' + componentName + '"';
-                const linkStringReplacement = `data-routelink="${componentName}" onclick="loadRouteComponent(event, '${componentName}')"`;
-                if (componentName &&
-                    html.includes(routeString) &&
-                    html.includes(linkString)) {
-                    routes[componentName] = components[component];
-                    html = html.replace(linkString, linkStringReplacement);
-                    html = html.replace(routeString, routeStringReplacement);
-                    delete components[component];
-                    hadRoutes = true;
-                    match = true;
-                }
-            });
+        if (hasRoutes(components, html)) {
+            const builtRoutes = buildRoutes(components, html);
+            routesString = `\nconst routes = ${util.inspect(builtRoutes.routes)};`;
+            loadRouteComponentString = `\n${loadRouteComponent}`;
+            html = builtRoutes.html;
         }
         return html;
-    };
-    const buildCss = (components) => {
+    }
+    function buildCss(components) {
         let css = '';
         Object.keys(components).forEach((c) => (css += components[c]));
         return css;
-    };
-    const buildJs = (components) => {
+    }
+    function buildJs(components) {
         let js = '';
         Object.keys(components).forEach((c) => (js += components[c]));
-        if (hadRoutes) {
-            let routesString = `const routes = {`;
-            Object.keys(routes).forEach((r) => {
-                routesString += `${r}: '${routes[r].trim()}',`;
-            });
-            routesString += '};';
-            js += routesString + Router.LoadFunction;
-        }
+        js += addRoutesToJS(routesString, loadRouteComponentString);
         return js;
-    };
+    }
     // Consts and calls
     const config = tryCatch(getConfig, CatchType.Warning, false, WarningMessage.WeldConfig);
     const sourceDir = (config === null || config === void 0 ? void 0 : config.input) || Dir.Source;
@@ -107,7 +94,7 @@ export function build() {
     fs.mkdirSync(destinationDir, { recursive: true });
     fs.writeFileSync(destinationDir + '/' + File.Index, indexContent);
     fs.writeFileSync(destinationDir + '/' + File.Style, styleContent);
-    fs.writeFileSync(destinationDir + '/' + File.Script, scriptContent);
+    fs.writeFileSync(destinationDir + '/' + File.Script, scriptContent.trim());
     fs.cpSync(sourceDir + '/' + Dir.Assets, destinationDir + '/' + Dir.Assets, {
         recursive: true,
     });

@@ -9,27 +9,39 @@ import {
   CatchType,
   WarningMessage,
   WeldConfig,
-  Router,
 } from './model/enums.js';
 import { tryCatch } from './functions/try-catch.js';
+import {
+  addRoutesToJS,
+  buildRoutes,
+  hasRoutes,
+  loadRouteComponent,
+} from './functions/routes.js';
+import util from 'util';
 
 export function build(): void {
   // Expressions
 
-  const isFolder = (item: string): boolean =>
-    !(
+  let routesString: string;
+  let loadRouteComponentString: string;
+
+  function isFolder(item: string): boolean {
+    return !(
       item.includes(FileFormat.Html) ||
       item.includes(FileFormat.Css) ||
       item.includes(FileFormat.Js)
     );
+  }
 
-  const getConfig = (): Config | undefined =>
-    JSON.parse(fs.readFileSync(WeldConfig, 'utf-8'));
+  function getConfig(): Config | undefined {
+    return JSON.parse(fs.readFileSync(WeldConfig, 'utf-8'));
+  }
 
-  const getComponentContent = (path: string): string =>
-    fs.readFileSync(path, 'utf-8');
+  function getComponentContent(path: string): string {
+    return fs.readFileSync(path, 'utf-8');
+  }
 
-  const getComponents = (path: string, components: Components): Components => {
+  function getComponents(path: string, components: Components): Components {
     const items = getItemsInFolder(path);
 
     items.forEach((item) => {
@@ -45,14 +57,13 @@ export function build(): void {
       }
     });
     return components;
-  };
+  }
 
-  const getItemsInFolder = (path: string): string[] => fs.readdirSync(path);
+  function getItemsInFolder(path: string): string[] {
+    return fs.readdirSync(path);
+  }
 
-  const routes: Component = {};
-  let hadRoutes = false;
-
-  const buildHtml = (components: Component): string => {
+  function buildHtml(components: Component): string {
     let html = components[Base.Index].replace(
       Strings.DivRoot,
       Strings.DivRoot + components[Base.Root]
@@ -71,55 +82,28 @@ export function build(): void {
       });
     }
 
-    match = true;
-    while (match === true) {
-      match = false;
-      Object.keys(components).forEach((component) => {
-        const componentName = component.match(/\w+/i)?.[0];
-        const routeString = '<Route component="' + componentName + '" />';
-        const routeStringReplacement = `<div data-routecomponent="${componentName}" data-routenotmounted style="visibility: hidden;"></div>`;
-        const linkString = 'loadComponent="' + componentName + '"';
-        const linkStringReplacement = `data-routelink="${componentName}" onclick="loadRouteComponent(event, '${componentName}')"`;
-
-        if (
-          componentName &&
-          html.includes(routeString) &&
-          html.includes(linkString)
-        ) {
-          routes[componentName] = components[component];
-          html = html.replace(linkString, linkStringReplacement);
-          html = html.replace(routeString, routeStringReplacement);
-          delete components[component];
-          hadRoutes = true;
-          match = true;
-        }
-      });
+    if (hasRoutes(components, html)) {
+      const builtRoutes = buildRoutes(components, html);
+      routesString = `\nconst routes = ${util.inspect(builtRoutes.routes)};`;
+      loadRouteComponentString = `\n${loadRouteComponent}`;
+      html = builtRoutes.html;
     }
 
     return html;
-  };
+  }
 
-  const buildCss = (components: Component): string => {
+  function buildCss(components: Component): string {
     let css: string = '';
     Object.keys(components).forEach((c) => (css += components[c]));
     return css;
-  };
+  }
 
-  const buildJs = (components: Component): string => {
+  function buildJs(components: Component): string {
     let js: string = '';
     Object.keys(components).forEach((c) => (js += components[c]));
-
-    if (hadRoutes) {
-      let routesString = `const routes = {`;
-      Object.keys(routes).forEach((r) => {
-        routesString += `${r}: '${routes[r].trim()}',`;
-      });
-      routesString += '};';
-      js += routesString + Router.LoadFunction;
-    }
-
+    js += addRoutesToJS(routesString, loadRouteComponentString);
     return js;
-  };
+  }
 
   // Consts and calls
 
@@ -159,7 +143,7 @@ export function build(): void {
   fs.mkdirSync(destinationDir, { recursive: true });
   fs.writeFileSync(destinationDir + '/' + File.Index, indexContent);
   fs.writeFileSync(destinationDir + '/' + File.Style, styleContent);
-  fs.writeFileSync(destinationDir + '/' + File.Script, scriptContent);
+  fs.writeFileSync(destinationDir + '/' + File.Script, scriptContent.trim());
   fs.cpSync(sourceDir + '/' + Dir.Assets, destinationDir + '/' + Dir.Assets, {
     recursive: true,
   });
