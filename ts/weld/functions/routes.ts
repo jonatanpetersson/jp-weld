@@ -71,6 +71,8 @@ export function loadRouteComponent(event: any, component: string) {
       el.replaceWith(newElement!);
     }
   });
+  // @ts-ignore
+  window[component]();
 }
 
 export function addRoutesToJS(

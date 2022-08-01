@@ -56,6 +56,8 @@ export function loadRouteComponent(event, component) {
             el.replaceWith(newElement);
         }
     });
+    // @ts-ignore
+    window[component]();
 }
 export function addRoutesToJS(routesString, loadRouteComponentString) {
     if (routesString && loadRouteComponentString) {
