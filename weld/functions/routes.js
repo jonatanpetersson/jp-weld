@@ -38,14 +38,22 @@ export function buildRoutes(components, html) {
     }
     return { html, routes };
 }
+// Temporary hack solution for necessary global vars
+let currentRoute = '';
 let routes = {};
 export function loadRouteComponent(event, component) {
     event.preventDefault();
+    currentRoute = component;
+    let shouldReload = true;
     const elements = document.querySelectorAll('[data-routecomponent]');
     elements.forEach((el) => {
         const tempWrapper = document.createElement('div');
         const routeComponent = el.dataset.routecomponent;
         if (routeComponent === component) {
+            if (el.style.visibility !== 'hidden') {
+                shouldReload = false;
+                return;
+            }
             tempWrapper.innerHTML = routes[component];
             const newElement = tempWrapper.firstChild;
             el.replaceWith(newElement);
@@ -57,11 +65,15 @@ export function loadRouteComponent(event, component) {
         }
     });
     // @ts-ignore
-    window[component]();
+    if (window[component] && shouldReload) {
+        // @ts-ignore
+        window[component]();
+    }
 }
 export function addRoutesToJS(routesString, loadRouteComponentString) {
     if (routesString && loadRouteComponentString) {
-        return routesString + loadRouteComponentString;
+        const currentRouteString = `let currentRoute = '';\n`;
+        return currentRouteString + routesString + loadRouteComponentString;
     }
     return '';
 }
