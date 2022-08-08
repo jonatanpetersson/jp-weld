@@ -60,6 +60,7 @@ Rudimentary routing is now added, VERY beta and untested at the moment:
 
 - In the component HTML, on the wrapping tag, add a `data-routecomponent="ComponentName"` attribute to it.
 - Wherever you wish to load this, add the component as `<Route component="ComponentName" />`.
+- If you wish for a route to load immediately on page load, you add `DefaultRoute` to the Route tag - `<Route component="ComponentName" DefaultRoute />`.
 - In the element you wish to use as link, put a `loadComponent="ComponentName"` attribute to it. This will be replaced with an onclick-function.
 - To run specific code on route load, wrap it all in a function called `ComponentName` (it will be called after html loads).
 - Loading one route will hide all the other.
@@ -80,7 +81,7 @@ Rudimentary routing is now added, VERY beta and untested at the moment:
 - Implement further error handling (pretty much none atm...)
 - Allow for some kind of data-binding to make components more flexible and reusable
 - More config settings: Make files to copy on compilation generic.
-- Suggestions?
+- Suggestions?  
   ✔ Added Routing
 
 ### Complete

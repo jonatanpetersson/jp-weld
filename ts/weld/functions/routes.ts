@@ -5,11 +5,13 @@ export function hasRoutes(components: Component, html: string): boolean {
   Object.keys(components).forEach((component) => {
     const componentName = component.match(/\w+/i)?.[0];
     const routeString = '<Route component="' + componentName + '" />';
+    const routeDefaultString =
+      '<Route component="' + componentName + '" DefaultRoute />';
     const linkString = 'loadComponent="' + componentName + '"';
 
     if (
       componentName &&
-      html.includes(routeString) &&
+      (html.includes(routeString) || html.includes(routeDefaultString)) &&
       html.includes(linkString)
     ) {
       hasRoutes = true;
@@ -29,18 +31,29 @@ export function buildRoutes(
     Object.keys(components).forEach((component) => {
       const componentName = component.match(/\w+/i)?.[0];
       const routeString = '<Route component="' + componentName + '" />';
+      const routeDefaultString =
+        '<Route component="' + componentName + '" DefaultRoute />';
       const routeStringReplacement = `<div data-routecomponent="${componentName}" data-routenotmounted style="visibility: hidden;"></div>`;
+      const routeDefaultStringReplacement = components[component];
       const linkString = 'loadComponent="' + componentName + '"';
       const linkStringReplacement = `data-routelink="${componentName}" onclick="loadRouteComponent(event, '${componentName}')"`;
 
       if (
         componentName &&
-        html.includes(routeString) &&
+        (html.includes(routeString) || html.includes(routeDefaultString)) &&
         html.includes(linkString)
       ) {
         routes[componentName] = components[component];
         html = html.replace(linkString, linkStringReplacement);
-        html = html.replace(routeString, routeStringReplacement);
+        if (html.includes(routeString)) {
+          html = html.replace(routeString, routeStringReplacement);
+        }
+        if (html.includes(routeDefaultString)) {
+          html = html.replace(
+            routeDefaultString,
+            routeDefaultStringReplacement
+          );
+        }
         delete components[component];
         match = true;
       }
